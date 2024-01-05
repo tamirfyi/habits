@@ -2,17 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Habit;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class HabitController extends Controller
+class HabitsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return "Habit";
+        $habits = Habit::orderBy('created_at', 'desc')->get();
+        return Inertia::render('Habits/Index', [
+            'habits' => $habits
+        ]);
     }
 
     /**
@@ -20,7 +24,7 @@ class HabitController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Habits/CreateHabit');
     }
 
     /**
@@ -28,7 +32,12 @@ class HabitController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $habit = new Habit;
+        $habit->name = $request->name;
+        $habit->user_id = auth()->id();
+        $habit->save();
+
+        return redirect()->route('habits.index');
     }
 
     /**
