@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Habit;
+use App\Models\HabitLog;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -14,6 +15,16 @@ class HabitsController extends Controller
     public function index()
     {
         $habits = Habit::orderBy('created_at', 'desc')->get();
+
+        foreach ($habits as $habit) {
+            $habitLog = HabitLog::where('habit_id', $habit->id)->get();
+            if ($habitLog->count() > 0) {
+                $habit->log = $habitLog;
+            } else {
+                $habit->log = [];
+            }
+        }
+
         return Inertia::render('Habits/Index', [
             'habits' => $habits
         ]);
@@ -36,6 +47,10 @@ class HabitsController extends Controller
         $habit->name = $request->name;
         $habit->user_id = auth()->id();
         $habit->save();
+
+        $habitLog = new HabitLog;
+        $habitLog->habit_id = $habit->id;
+        $habitLog->save();
 
         return redirect()->route('habits.index');
     }

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\HabitLogController;
+use App\Http\Controllers\HabitLogsController;
 use App\Http\Controllers\HabitsController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -36,6 +38,8 @@ Route::prefix('/habits')->group(
         Route::get('/', [HabitsController::class, 'index'])->name('habits.index');
         Route::get('/create', [HabitsController::class, 'create'])->name('habits.create');
         Route::get('/{id}', [HabitsController::class, 'show'])->name('habits.show');
+        Route::post('/{id}/confirm', [HabitLogsController::class, 'store'])->name('habits.confirm');
+        Route::post('/{id}/log', [HabitLogsController::class, 'index'])->name('habits.log');
         Route::post('/', [HabitsController::class, 'store'])->name(('habits.store'));
         Route::get('/edit/{id}', [HabitsController::class, 'edit'])->name(('habits.edit'));
         Route::patch('/{id}', [HabitsController::class, 'update'])->name('habits.update');

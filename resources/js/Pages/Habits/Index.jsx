@@ -20,11 +20,7 @@ export default function Index({ auth, habits }) {
                     New habit
                 </Link>
                 {habits.map((habit) => {
-                    return (
-                        <div className="flex justify-center">
-                            <p>{habit.name}</p>
-                        </div>
-                    );
+                    return <Habit key={habit.id} habitData={habit} />;
                 })}
             </div>
         </AuthenticatedLayout>
