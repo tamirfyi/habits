@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Habit;
 use App\Models\HabitLog;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -16,8 +17,10 @@ class HabitsController extends Controller
     {
         $habits = Habit::orderBy('created_at', 'desc')->get();
 
+        $currentDate = Carbon::now()->toDateString();
+
         foreach ($habits as $habit) {
-            $habitLog = HabitLog::where('habit_id', $habit->id)->get();
+            $habitLog = HabitLog::where('habit_id', $habit->id)->whereDate('created_at', $currentDate)->get();
             if ($habitLog->count() > 0) {
                 $habit->log = $habitLog;
             } else {

@@ -1,5 +1,6 @@
 import { Head, Link } from "@inertiajs/react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import Habit from "./Habit";
 
 export default function Index({ auth, habits }) {
     return (
