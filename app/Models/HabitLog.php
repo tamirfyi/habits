@@ -11,7 +11,6 @@ class HabitLog extends Model
 
     protected $fillable = [
         'habit_id',
-        'date',
         'is_confirmed',
     ];
 

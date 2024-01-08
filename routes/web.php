@@ -42,8 +42,10 @@ Route::prefix('/habits')->group(
         Route::post('/', [HabitsController::class, 'store'])->name(('habits.store'));
         Route::get('/edit/{id}', [HabitsController::class, 'edit'])->name(('habits.edit'));
         Route::patch('/{id}', [HabitsController::class, 'update'])->name('habits.update');
-        Route::patch('/log/{id}', [HabitLogsController::class, 'update'])->name('habit-logs.update');
         Route::delete('/{id}', [HabitsController::class, 'destroy'])->name('habits.destroy');
+
+        //Log-related routes
+        Route::patch('/{id}/check/{date?}', [HabitLogsController::class, 'check'])->name('habits.check');
     }
 );
 

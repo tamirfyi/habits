@@ -17,10 +17,8 @@ class HabitsController extends Controller
     {
         $habits = Habit::orderBy('created_at', 'desc')->get();
 
-        $currentDate = Carbon::now()->toDateString();
-
         foreach ($habits as $habit) {
-            $habitLog = HabitLog::where('habit_id', $habit->id)->whereDate('created_at', $currentDate)->get();
+            $habitLog = HabitLog::where('habit_id', $habit->id)->whereDate('created_at', Carbon::now())->get();
             if ($habitLog->count() > 0) {
                 $habit->log = $habitLog;
             } else {
@@ -29,7 +27,7 @@ class HabitsController extends Controller
         }
 
         return Inertia::render('Habits/Index', [
-            'habits' => $habits
+            'habits' => $habits,
         ]);
     }
 
